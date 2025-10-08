@@ -1,52 +1,51 @@
 import products
 import store
+from products import RED, GREEN, YELLOW, CYAN, RESET
 
 
-# Setup initial stock of inventory
+# Setup inventory
 product_list = [
-    products.Product("MacBook Air M2", price=1450, quantity=100),
-    products.Product("Bose QuietComfort Earbuds", price=250, quantity=500),
-    products.Product("Google Pixel 7", price=500, quantity=250),
+    products.Product("MacBook Air M2", 1450, 100),
+    products.Product("Bose QuietComfort Earbuds", 250, 500),
+    products.Product("Google Pixel 7", 500, 250),
 ]
-
 best_buy = store.Store(product_list)
 
 
 def list_products():
-    """List all active products in the store."""
-    print("\nAvailable products:")
+    print(f"{CYAN}{'_' * 50}{RESET}")
+    print(f"\n{CYAN}Available Products:{RESET}")
+    print(f"{CYAN}{'-' * 50}{RESET}")
     for product in best_buy.get_all_products():
         product.show()
 
 
 def show_total():
-    """Show total quantity of items in the store."""
     total = best_buy.get_total_quantity()
-    print(f"\nTotal items in store: {total}")
+    print(f"{YELLOW}Total items in store:{RESET} {GREEN}{total}{RESET}")
 
 
 def make_order():
-    """Let user make an order interactively."""
     available = best_buy.get_all_products()
     shopping_list = []
 
-    print("\nAvailable products:")
+    print(f"\n{CYAN}Available Products:{RESET}")
     for i, product in enumerate(available, start=1):
         print(f"{i}. {product.name} - ${product.price} (Qty: {product.quantity})")
 
     while True:
-        choice = input("\nEnter product number to buy (or 'done' to finish): ")
+        choice = input(f"{YELLOW}\nEnter product number (or 'done' to finish): {RESET}")
         if choice.lower() == 'done':
             break
         if not choice.isdigit() or not (1 <= int(choice) <= len(available)):
-            print("Invalid selection, try again.")
+            print(f"{RED}Invalid selection, try again.{RESET}")
             continue
 
         product_index = int(choice) - 1
-        quantity = input("Enter quantity: ")
+        quantity = input(f"{YELLOW}Enter quantity: {RESET}")
 
         if not quantity.isdigit() or int(quantity) <= 0:
-            print("Invalid quantity.")
+            print(f"{RED}Invalid quantity.{RESET}")
             continue
 
         shopping_list.append((available[product_index], int(quantity)))
@@ -54,20 +53,18 @@ def make_order():
     if shopping_list:
         try:
             total_price = best_buy.order(shopping_list)
-            print(f"\nOrder placed successfully! Total cost: ${total_price}")
+            print(f"{GREEN}\nOrder placed successfully! Total cost: ${total_price}{RESET}")
         except Exception as e:
-            print(f"Error during order: {e}")
+            print(f"{RED}Error during order: {e}{RESET}")
     else:
-        print("No products selected.")
+        print(f"{YELLOW}No products selected.{RESET}")
 
 
 def quit_program():
-    """Exit the program."""
-    print("Thank you for shopping with us!")
+    print(f"{CYAN}Thank you for shopping with us! Come again soon!{RESET}")
     exit()
 
 
-# Dispatcher maps menu numbers to functions
 dispatcher = {
     1: list_products,
     2: show_total,
@@ -75,38 +72,38 @@ dispatcher = {
     4: quit_program,
 }
 
-
 list_of_commands = [
-    'List all products in store',
-    'Show total amount in store',
-    'Make an order',
-    'Quit'
+    "List all products in store",
+    "Show total amount in store",
+    "Make an order",
+    "Quit"
 ]
+
 
 def start(store):
     """Main menu loop."""
     while True:
-        print("\n" + "-" * 30)
-        print("       Welcome to Best Buy")
-        print("-" * 30)
+        # Decorative header
+        print(f"\n{CYAN}{'=' * 50}")
+        print(f"{'🌟 Welcome to Best Buy 🌟':^50}")
+        print(f"{'=' * 50}{RESET}")
 
-        # print menu dynamically
+        # Menu
         for index, message in enumerate(list_of_commands, start=1):
-            print(f"{index}. {message}")
-        print("-" * 30)
+            print(f"{YELLOW}{index}. {message}{RESET}")
+        print(f"{CYAN}{'-' * 50}{RESET}")
 
-        choice = input("Please choose a number: ")
+        choice = input(f"{CYAN}Please choose a number: {RESET}")
 
         if not choice.isdigit():
-            print("Invalid input, please enter a number.")
+            print(f"{RED}Invalid input, please enter a number.{RESET}")
             continue
 
         choice = int(choice)
         if choice not in dispatcher:
-            print("Invalid choice. Please try again.")
+            print(f"{RED}Invalid choice. Please try again.{RESET}")
             continue
 
-        # run selected option
         dispatcher[choice]()
 
 

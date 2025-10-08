@@ -1,39 +1,86 @@
-from typing import List
-from products import Product, RED, GREEN, YELLOW, CYAN, RESET
+from typing import List, Tuple
+from products import Product, RED, GREEN, YELLOW, RESET
 
 
 class Store:
-    def __init__(self, products: List[Product]):
+    def __init__(self, products: List[Product]) -> None:
+        """
+        Initialize the store with a list of Product instances.
+        Args:
+            products (List[Product]): List of products to add to the store.
+        Raises:
+            TypeError: If products is not a list or contains non-Product items.
+        """
         if not isinstance(products, list):
             raise TypeError(f"{RED}Products must be provided as a list.{RESET}")
         if not all(isinstance(p, Product) for p in products):
             raise TypeError(f"{RED}All items in the list must be Product instances.{RESET}")
+
         self.products = products
 
-    def add_product(self, product: Product):
+    def add_product(self, product: Product) -> None:
+        """
+        Add a new product to the store.
+        Args:
+            product (Product): The product to add.
+        Raises:
+            TypeError: If product is not a Product instance.
+        """
         if not isinstance(product, Product):
             raise TypeError(f"{RED}Only Product instances can be added.{RESET}")
+
         self.products.append(product)
         print(f"{GREEN}Added product: {product.name}{RESET}")
 
-    def remove_product(self, product: Product):
+    def remove_product(self, product: Product) -> None:
+        """
+        Remove a product from the store.
+        Args:
+            product (Product): The product to remove.
+        Raises:
+            TypeError: If product is not a Product instance.
+        """
         if not isinstance(product, Product):
             raise TypeError(f"{RED}Only Product instances can be removed.{RESET}")
+
         if product in self.products:
             self.products.remove(product)
             print(f"{YELLOW}Removed product: {product.name}{RESET}")
 
     def get_total_quantity(self) -> int:
+        """
+        Get total quantity of all products in the store.
+        Returns:
+            int: Total quantity available.
+        """
         return sum(p.get_quantity() for p in self.products)
 
     def get_all_products(self) -> List[Product]:
+        """
+        Get all active products in the store.
+        Returns:
+            List[Product]: List of active products.
+        """
         return [p for p in self.products if p.is_active()]
 
-    def order(self, shopping_list: List[tuple]) -> float:
+    def order(self, shopping_list: List[Tuple[Product, int]]) -> float:
+        """
+        Process an order given a shopping list of (Product, quantity) tuples.
+        Args:
+            shopping_list (List[Tuple[Product, int]]): List of items to buy.
+        Returns:
+            float: Total cost of the order.
+        Raises:
+            ValueError: If shopping list format is incorrect or quantities invalid.
+            TypeError: If product in shopping list is not a Product instance.
+        """
         total_cost = 0.0
+
         for item in shopping_list:
             if not isinstance(item, tuple) or len(item) != 2:
-                raise ValueError(f"{RED}Each shopping list item must be (Product, quantity).{RESET}")
+                raise ValueError(
+                    f"{RED}Each shopping list item must be (Product, quantity).{RESET}"
+                )
 
             product, quantity = item
 
@@ -48,8 +95,8 @@ class Store:
         return total_cost
 
 
-#--------------------------- TESTING BLOCK ---------------------------------
-def main():
+# --------------------------- TESTING BLOCK ---------------------------------
+def main() -> None:
     import products
 
     product_list = [

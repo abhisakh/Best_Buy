@@ -1,6 +1,7 @@
 import products
 import store
 from products import RED, GREEN, YELLOW, CYAN, RESET
+from typing import NoReturn
 
 
 # Setup inventory
@@ -12,7 +13,8 @@ product_list = [
 best_buy = store.Store(product_list)
 
 
-def list_products():
+def list_products() -> None:
+    """List all active products in the store."""
     print(f"{CYAN}{'_' * 50}{RESET}")
     print(f"\n{CYAN}Available Products:{RESET}")
     print(f"{CYAN}{'-' * 50}{RESET}")
@@ -20,12 +22,14 @@ def list_products():
         product.show()
 
 
-def show_total():
+def show_total() -> None:
+    """Display total quantity of items in the store."""
     total = best_buy.get_total_quantity()
     print(f"{YELLOW}Total items in store:{RESET} {GREEN}{total}{RESET}")
 
 
-def make_order():
+def make_order() -> None:
+    """Allow user to interactively create an order."""
     available = best_buy.get_all_products()
     shopping_list = []
 
@@ -60,7 +64,8 @@ def make_order():
         print(f"{YELLOW}No products selected.{RESET}")
 
 
-def quit_program():
+def quit_program() -> NoReturn:
+    """Exit the program."""
     print(f"{CYAN}Thank you for shopping with us! Come again soon!{RESET}")
     exit()
 
@@ -80,15 +85,15 @@ list_of_commands = [
 ]
 
 
-def start(store):
-    """Main menu loop."""
+def start(store: store.Store) -> None:
+    """Main menu loop to interact with the store."""
     while True:
         # Decorative header
         print(f"\n{CYAN}{'=' * 50}")
-        print(f"{'🌟 Welcome to Best Buy 🌟':^50}")
+        print(f"{'🛍️✨''🌟 Welcome to Best Buy 🌟''🛍️✨ ':^50}")
         print(f"{'=' * 50}{RESET}")
 
-        # Menu
+        # Menu display
         for index, message in enumerate(list_of_commands, start=1):
             print(f"{YELLOW}{index}. {message}{RESET}")
         print(f"{CYAN}{'-' * 50}{RESET}")
@@ -99,12 +104,12 @@ def start(store):
             print(f"{RED}Invalid input, please enter a number.{RESET}")
             continue
 
-        choice = int(choice)
-        if choice not in dispatcher:
+        choice_int = int(choice)
+        if choice_int not in dispatcher:
             print(f"{RED}Invalid choice. Please try again.{RESET}")
             continue
 
-        dispatcher[choice]()
+        dispatcher[choice_int]()
 
 
 if __name__ == "__main__":

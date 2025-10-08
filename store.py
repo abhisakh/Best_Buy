@@ -1,71 +1,54 @@
 from typing import List
-from products import Product
+from products import Product, RED, GREEN, YELLOW, CYAN, RESET
 
 
 class Store:
     def __init__(self, products: List[Product]):
-        """
-        Initialize the store with a list of Product instances.
-        """
         if not isinstance(products, list):
-            raise TypeError("Products must be provided as a list.")
+            raise TypeError(f"{RED}Products must be provided as a list.{RESET}")
         if not all(isinstance(p, Product) for p in products):
-            raise TypeError("All items in the list must be Product instances.")
-
+            raise TypeError(f"{RED}All items in the list must be Product instances.{RESET}")
         self.products = products
 
     def add_product(self, product: Product):
-        """
-        Adds a new product to the store.
-        """
         if not isinstance(product, Product):
-            raise TypeError("Only Product instances can be added.")
+            raise TypeError(f"{RED}Only Product instances can be added.{RESET}")
         self.products.append(product)
+        print(f"{GREEN}Added product: {product.name}{RESET}")
 
     def remove_product(self, product: Product):
-        """
-        Removes a product from the store if it exists.
-        """
         if not isinstance(product, Product):
-            raise TypeError("Only Product instances can be removed.")
+            raise TypeError(f"{RED}Only Product instances can be removed.{RESET}")
         if product in self.products:
             self.products.remove(product)
+            print(f"{YELLOW}Removed product: {product.name}{RESET}")
 
     def get_total_quantity(self) -> int:
-        """
-        Returns how many items (in total) are in the store.
-        """
         return sum(p.get_quantity() for p in self.products)
 
     def get_all_products(self) -> List[Product]:
-        """
-        Returns all products in the store that are active.
-        """
         return [p for p in self.products if p.is_active()]
 
     def order(self, shopping_list: List[tuple]) -> float:
-        """
-        Accepts a list of (Product, quantity) tuples.
-        Buys the products and returns the total price of the order.
-        """
         total_cost = 0.0
-
         for item in shopping_list:
             if not isinstance(item, tuple) or len(item) != 2:
-                raise ValueError("Each shopping list item must be a (Product, quantity) tuple.")
+                raise ValueError(f"{RED}Each shopping list item must be (Product, quantity).{RESET}")
 
             product, quantity = item
 
             if not isinstance(product, Product):
-                raise TypeError("First element of each tuple must be a Product.")
+                raise TypeError(f"{RED}First element must be a Product.{RESET}")
             if not isinstance(quantity, int) or quantity <= 0:
-                raise ValueError("Quantity must be a positive integer.")
+                raise ValueError(f"{RED}Quantity must be a positive integer.{RESET}")
 
             total_cost += product.buy(quantity)
 
+        print(f"{GREEN}Order processed successfully!{RESET}")
         return total_cost
 
 
+#--------------------------- TESTING BLOCK ---------------------------------
 def main():
     import products
 

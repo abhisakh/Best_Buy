@@ -12,6 +12,7 @@ Date: 2025-10-09
 
 import sys
 from typing import NoReturn
+from datetime import datetime
 import products
 import store
 from products import RED, GREEN, YELLOW, CYAN, BLACK, WHITE_BG, GREY_BG, RESET
@@ -39,6 +40,27 @@ def show_total() -> None:
     """Display total quantity of items in the store."""
     total = best_buy.get_total_quantity()
     print(f"{YELLOW}Total items in store:{RESET} {GREEN}{total}{RESET}")
+
+
+def print_receipt(order_items: list[tuple], total_price: float) -> None:
+    """Display a formatted receipt after a successful order."""
+    print(f"\n{CYAN}{'=' * 60}")
+    print(f"{'🧾  BEST BUY RECEIPT  🧾':^60}")
+    print(f"{'=' * 60}{RESET}")
+    print(f"{YELLOW}Date:{RESET} {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
+
+    print(f"{CYAN}{'Item':<25}{'Qty':<10}{'Price':<10}{'Subtotal':<10}{RESET}")
+    print(f"{'-' * 60}")
+
+    for product, quantity in order_items:
+        subtotal = product.price * quantity
+        print(f"{product.name:<25}{quantity:<10}{product.price:<10.2f}{subtotal:<10.2f}")
+
+    print(f"{'-' * 60}")
+    print(f"{GREEN}{'TOTAL:':<45}${total_price:.2f}{RESET}")
+    print(f"{CYAN}{'=' * 60}")
+    print(f"{'Thank you for shopping with Best Buy! 💙':^60}")
+    print(f"{'=' * 60}{RESET}\n")
 
 
 def make_order() -> None:
@@ -94,6 +116,7 @@ def make_order() -> None:
         try:
             total_price = best_buy.order(shopping_list)
             print(f"{GREEN}\nOrder placed successfully! Total cost: ${total_price}{RESET}")
+            print_receipt(shopping_list, total_price)
         except (ValueError, TypeError) as e:
             print(f"{RED}Error during order: {e}{RESET}")
     else:

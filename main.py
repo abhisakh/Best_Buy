@@ -1,7 +1,20 @@
+"""
+main.py
+
+This module provides a command-line interface for the Best Buy Store application.
+It allows users to view available products, check total stock, and place orders
+interactively through a text-based menu system.
+
+Author: Abhisakh
+Date: 2025-10-09
+"""
+
+
+import sys
+from typing import NoReturn
 import products
 import store
 from products import RED, GREEN, YELLOW, CYAN, RESET
-from typing import NoReturn
 
 
 # Setup inventory
@@ -41,8 +54,9 @@ def make_order() -> None:
         choice = input(f"{YELLOW}\nEnter product number (or 'done' to finish): {RESET}")
         if choice.lower() == 'done':
             break
-        if not choice.isdigit() or not (1 <= int(choice) <= len(available)):
-            print(f"{RED}Invalid selection, try again.{RESET}")
+        if not choice.isdigit() or not 1 <= int(choice) <= len(available):
+            print(f"{RED}Product selection should be from the products"
+                  f"which are available at our store, try again.{RESET}")
             continue
 
         product_index = int(choice) - 1
@@ -52,13 +66,16 @@ def make_order() -> None:
             print(f"{RED}Invalid quantity.{RESET}")
             continue
 
+        if int(quantity) > available[product_index].quantity:
+            print(f"{RED}Only {available[product_index].quantity} items available in stock.{RESET}")
+            continue
         shopping_list.append((available[product_index], int(quantity)))
 
     if shopping_list:
         try:
             total_price = best_buy.order(shopping_list)
             print(f"{GREEN}\nOrder placed successfully! Total cost: ${total_price}{RESET}")
-        except Exception as e:
+        except (ValueError, TypeError) as e:
             print(f"{RED}Error during order: {e}{RESET}")
     else:
         print(f"{YELLOW}No products selected.{RESET}")
@@ -67,7 +84,7 @@ def make_order() -> None:
 def quit_program() -> NoReturn:
     """Exit the program."""
     print(f"{CYAN}Thank you for shopping with us! Come again soon!{RESET}")
-    exit()
+    sys.exit(0)
 
 
 dispatcher = {
@@ -85,7 +102,7 @@ list_of_commands = [
 ]
 
 
-def start(store: store.Store) -> None:
+def start() -> None:
     """Main menu loop to interact with the store."""
     while True:
         # Decorative header
@@ -113,4 +130,4 @@ def start(store: store.Store) -> None:
 
 
 if __name__ == "__main__":
-    start(best_buy)
+    start()

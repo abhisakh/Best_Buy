@@ -69,7 +69,26 @@ def make_order() -> None:
         if int(quantity) > available[product_index].quantity:
             print(f"{RED}Only {available[product_index].quantity} items available in stock.{RESET}")
             continue
-        shopping_list.append((available[product_index], int(quantity)))
+        # Check if product already in shopping_list — merge quantities
+        selected_product = available[product_index]
+        quantity_int = int(quantity)
+
+        # Find existing entry
+        for i, (p, q) in enumerate(shopping_list):
+            if p == selected_product:
+                new_total = q + quantity_int
+                if new_total > p.quantity:
+                    print(f"{RED}You cannot order more than {p.quantity} units in total.{RESET}")
+                    break
+                shopping_list[i] = (p, new_total)
+                print(f"{YELLOW}Updated {p.name} to {new_total} units in your order.{RESET}")
+                break
+        else:
+            # If not found, add new entry
+            if quantity_int > selected_product.quantity:
+                print(f"{RED}Only {selected_product.quantity} items available in stock.{RESET}")
+                continue
+            shopping_list.append((selected_product, quantity_int))
 
     if shopping_list:
         try:

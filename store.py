@@ -1,8 +1,20 @@
+"""store.py
+
+This module defines the `Store` class, which manages a collection of `Product` objects.
+It supports adding, removing, and listing products, calculating total quantity,
+and processing customer orders interactively.
+
+Author: Abhisakh Sarma
+Date: 2025-10-09
+"""
+
+
 from typing import List, Tuple
 from products import Product, RED, GREEN, YELLOW, RESET
 
 
 class Store:
+    """Manages a collection of products and handles customer orders."""
     def __init__(self, products: List[Product]) -> None:
         """
         Initialize the store with a list of Product instances.
@@ -98,12 +110,11 @@ class Store:
 # --------------------------- TESTING BLOCK ---------------------------------
 def main() -> None:
     """Test the Store class functionality with example data."""
-    import products
 
     product_list = [
-        products.Product("MacBook Air M2", price=1450, quantity=100),
-        products.Product("Bose QuietComfort Earbuds", price=250, quantity=500),
-        products.Product("Google Pixel 7", price=500, quantity=250),
+        Product("MacBook Air M2", price=1450, quantity=100),
+        Product("Bose QuietComfort Earbuds", price=250, quantity=500),
+        Product("Google Pixel 7", price=500, quantity=250),
     ]
 
     best_buy = Store(product_list)

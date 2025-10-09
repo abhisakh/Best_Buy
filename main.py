@@ -15,7 +15,7 @@ from typing import NoReturn
 from datetime import datetime
 import products
 import store
-from products import RED, GREEN, YELLOW, RESET
+from products import RED, GREEN, YELLOW, CYAN, RESET
 
 
 # Setup inventory

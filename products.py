@@ -115,8 +115,8 @@ def main() -> None:
 
     try:
         print(bose.buy(501))
-    except Exception as e:
-        print(e)
+    except Exception as error:
+        print(error)
 
     print(mac.buy(100))
     print(mac.is_active())

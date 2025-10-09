@@ -1,5 +1,5 @@
 # 🛍️✨ Store Inventory & Ordering System 🛒
-<img width="613" height="449" alt="Screenshot 2025-10-08 at 22 33 50" src="https://github.com/user-attachments/assets/42a914a4-a7b4-4c4c-a529-22b7fde627f7" />
+<img width="960" height="610" alt="Screenshot 2025-10-09 at 09 33 44" src="https://github.com/user-attachments/assets/96012db0-0b05-4ba9-992e-2a7e650f7da8" />
 
 Welcome to the **Store Inventory & Ordering System**!  
 This Python project simulates a simple store inventory management and ordering system with an interactive command-line interface. 
@@ -17,6 +17,9 @@ It’s designed to demonstrate object-oriented programming, exception handling, 
   - Viewing total quantity of items in stock.
   - Placing orders with multiple products and quantities.
 - Colorful terminal output using ANSI escape codes for better readability.
+- Receipt generation.
+- <img width="524" height="317" alt="Screenshot 2025-10-09 at 09 58 38" src="https://github.com/user-attachments/assets/45e0f1b3-fb4f-4530-9969-158325e2189f" />
+
 
 ---
 

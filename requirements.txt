@@ -1,0 +1,8 @@
+# Python environment requirements for Best Buy CLI Store App
+
+# Python version
+python==3.13.0
+
+# Linting and code quality tool
+pylint==3.3.7
+astroid==3.3.11

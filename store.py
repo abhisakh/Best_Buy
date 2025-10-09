@@ -97,6 +97,7 @@ class Store:
 
 # --------------------------- TESTING BLOCK ---------------------------------
 def main() -> None:
+    """Test the Store class functionality with example data."""
     import products
 
     product_list = [

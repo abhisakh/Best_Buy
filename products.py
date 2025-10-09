@@ -3,13 +3,11 @@ RED = "\033[91m"
 GREEN = "\033[92m"
 YELLOW = "\033[93m"
 CYAN = "\033[96m"
-BLACK = "\033[30m"
-WHITE_BG = "\033[107m"
-GREY_BG = "\033[100m"
 RESET = "\033[0m"
 
 
 class Product:
+    """Represents a product in the store, including name, price, quantity, and active status."""
     def __init__(self, name: str, price: float, quantity: int) -> None:
         """
         Initialize a Product instance.

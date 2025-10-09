@@ -14,7 +14,7 @@ import sys
 from typing import NoReturn
 import products
 import store
-from products import RED, GREEN, YELLOW, CYAN, RESET
+from products import RED, GREEN, YELLOW, CYAN, BLACK, WHITE_BG, GREY_BG, RESET
 
 
 # Setup inventory
@@ -106,9 +106,10 @@ def start() -> None:
     """Main menu loop to interact with the store."""
     while True:
         # Decorative header
-        print(f"\n{CYAN}{'=' * 50}")
-        print(f"{'🛍️✨''🌟 Welcome to Best Buy 🌟''🛍️✨ ':^50}")
-        print(f"{'=' * 50}{RESET}")
+        print(f"\n{CYAN}{'=' * 50}{RESET}")
+        banner_text = " 🛍️✨ 🌟  Welcome to Best Buy  🌟 🛍️✨ "
+        print(f"{GREEN}{banner_text:^47}{RESET}")
+        print(f"{CYAN}{'=' * 50}{RESET}")
 
         # Menu display
         for index, message in enumerate(list_of_commands, start=1):
@@ -130,4 +131,6 @@ def start() -> None:
 
 
 if __name__ == "__main__":
+    print(f"{GREEN}Starting Best Buy Store CLI...{RESET}")
     start()
+

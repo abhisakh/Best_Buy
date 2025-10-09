@@ -1,3 +1,11 @@
+
+"""
+products.py
+
+This module defines the Product class and related logic used in the Best Buy Store system.
+It includes product creation, validation, activation/deactivation, and purchase handling.
+"""
+
 # ANSI color constants
 RED = "\033[91m"
 GREEN = "\033[92m"

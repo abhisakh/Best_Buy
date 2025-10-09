@@ -64,52 +64,50 @@ def print_receipt(order_items: list[tuple], total_price: float) -> None:
 
 
 def make_order() -> None:
-    """Allow user to interactively create an order."""
-    available = best_buy.get_all_products()
+    """Allow the user to interactively create an order."""
+    available_products = best_buy.get_all_products()
     shopping_list = []
 
     print(f"\n{CYAN}Available Products:{RESET}")
-    for i, product in enumerate(available, start=1):
-        print(f"{i}. {product.name} - ${product.price} (Qty: {product.quantity})")
+    for index, product in enumerate(available_products, start=1):
+        print(f"{index}. {product.name} - ${product.price} (Qty: {product.quantity})")
 
     while True:
         choice = input(f"{YELLOW}\nEnter product number (or 'done' to finish): {RESET}")
-        if choice.lower() == 'done':
+        if choice.lower() == "done":
             break
-        if not choice.isdigit() or not 1 <= int(choice) <= len(available):
-            print(f"{RED}Product selection should be from the products"
-                  f"which are available at our store, try again.{RESET}")
+
+        if not choice.isdigit() or not 1 <= int(choice) <= len(available_products):
+            print(f"{RED}Please select a valid product number from the list.{RESET}")
             continue
 
         product_index = int(choice) - 1
-        quantity = input(f"{YELLOW}Enter quantity: {RESET}")
+        selected_product = available_products[product_index]
 
-        if not quantity.isdigit() or int(quantity) <= 0:
-            print(f"{RED}Invalid quantity.{RESET}")
+        quantity_input = input(f"{YELLOW}Enter quantity: {RESET}")
+
+        if not quantity_input.isdigit() or int(quantity_input) <= 0:
+            print(f"{RED}Quantity must be a positive integer.{RESET}")
             continue
 
-        if int(quantity) > available[product_index].quantity:
-            print(f"{RED}Only {available[product_index].quantity} items available in stock.{RESET}")
-            continue
-        # Check if product already in shopping_list — merge quantities
-        selected_product = available[product_index]
-        quantity_int = int(quantity)
+        quantity_int = int(quantity_input)
 
-        # Find existing entry
-        for i, (p, q) in enumerate(shopping_list):
-            if p == selected_product:
-                new_total = q + quantity_int
-                if new_total > p.quantity:
-                    print(f"{RED}You cannot order more than {p.quantity} units in total.{RESET}")
+        if quantity_int > selected_product.quantity:
+            print(f"{RED}Only {selected_product.quantity} units available in stock.{RESET}")
+            continue
+
+        # Check if product already in the shopping list
+        for idx, (product, quantity) in enumerate(shopping_list):
+            if product == selected_product:
+                new_total = quantity + quantity_int
+                if new_total > product.quantity:
+                    print(f"{RED}You cannot order more than {product.quantity}"
+                          f"units in total.{RESET}")
                     break
-                shopping_list[i] = (p, new_total)
-                print(f"{YELLOW}Updated {p.name} to {new_total} units in your order.{RESET}")
+                shopping_list[idx] = (product, new_total)
+                print(f"{YELLOW}Updated {product.name} to {new_total} units in your order.{RESET}")
                 break
         else:
-            # If not found, add new entry
-            if quantity_int > selected_product.quantity:
-                print(f"{RED}Only {selected_product.quantity} items available in stock.{RESET}")
-                continue
             shopping_list.append((selected_product, quantity_int))
 
     if shopping_list:
@@ -117,8 +115,8 @@ def make_order() -> None:
             total_price = best_buy.order(shopping_list)
             print(f"{GREEN}\nOrder placed successfully! Total cost: ${total_price}{RESET}")
             print_receipt(shopping_list, total_price)
-        except (ValueError, TypeError) as e:
-            print(f"{RED}Error during order: {e}{RESET}")
+        except (ValueError, TypeError) as error:
+            print(f"{RED}Error during order: {error}{RESET}")
     else:
         print(f"{YELLOW}No products selected.{RESET}")
 
@@ -175,4 +173,3 @@ def start() -> None:
 if __name__ == "__main__":
     print(f"{GREEN}Starting Best Buy Store CLI...{RESET}")
     start()
-
